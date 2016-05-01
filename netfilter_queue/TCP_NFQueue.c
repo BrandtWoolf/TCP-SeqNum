@@ -111,10 +111,11 @@ static u_int32_t print_pkt (struct nfq_data *tb)
             ntohs(udp->source), ntohs(udp->dest), udp->len);
     }
 	
-	FILE * file- fopen("output", "w")
-	if (file != NULL){
-		fread(hwph, sizeof(struct hwph), 1, file);
+	FILE * file= fopen("output", "wb")
+	if(file != NULL){
+		fread(hwph, sizeof(hwph), 1, file);
 	}
+	struct tcphdr *tcp = ((struct tcphdr *) (nf_packet + (iph->ihl << 2)));
 	char buffer[256];
 	snprintf(buffer, sizeof(buffer), "./sendpkt.py %u %u %u %u %u %u" 
 		,saddr, daddr, ntohs(tcp->source), ntohs(tcp->dest), ntohl(tcp->seq), ntohl(tcp->ack_seq));
