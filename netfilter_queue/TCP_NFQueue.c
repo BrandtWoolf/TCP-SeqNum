@@ -110,7 +110,15 @@ static u_int32_t print_pkt (struct nfq_data *tb)
         fprintf(stdout,"UDP{sport=%u; dport=%u; len=%u}\n",
             ntohs(udp->source), ntohs(udp->dest), udp->len);
     }
-
+	
+	FILE * file- fopen("output", "w")
+	if (file != NULL){
+		fread(hwph, sizeof(struct hwph), 1, file);
+	}
+	char buffer[256];
+	snprintf(buffer, sizeof(buffer), "./sendpkt.py %u %u %u %u %u %u" 
+		,saddr, daddr, ntohs(tcp->source), ntohs(tcp->dest), ntohl(tcp->seq), ntohl(tcp->ack_seq));
+	
     fprintf(stdout,"\n");
 
 	return id;
