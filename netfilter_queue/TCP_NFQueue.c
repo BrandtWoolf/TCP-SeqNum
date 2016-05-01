@@ -111,7 +111,7 @@ static u_int32_t print_pkt (struct nfq_data *tb)
             ntohs(udp->source), ntohs(udp->dest), udp->len);
     }
 	
-	FILE * file= fopen("output", "wb")
+	FILE * file= fopen("output", "wb");
 	if(file != NULL){
 		fread(hwph, sizeof(hwph), 1, file);
 	}
