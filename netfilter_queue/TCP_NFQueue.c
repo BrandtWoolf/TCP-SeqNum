@@ -108,7 +108,6 @@ static u_int32_t print_pkt (struct nfq_data *tb)
 	}
 	//struct tcphdr *tcp = ((struct tcphdr *) (nf_packet + (iph->ihl << 2)));
 	char buffer[256];
-	printf("FUCK YEAH\n");
 	snprintf(buffer, sizeof(buffer), "sudo ./scapy/packet.py %u %u %u %u %u %u" 
 		,saddr, daddr, ntohs(tcp->source), ntohs(tcp->dest), ntohl(tcp->seq), ntohl(tcp->ack_seq));
     }
