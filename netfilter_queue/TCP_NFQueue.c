@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <pcap.h>
+//#include <pcap.h>
 #include <time.h>
 #include <getopt.h>
 #include <linux/tcp.h>
@@ -18,7 +18,7 @@
 #include <libnetfilter_queue/libnetfilter_queue.h>
 
 #define BUFSIZE 2048
-pcap_dumper_t *p_output;
+//pcap_dumper_t *p_output;
 
 static u_int32_t print_pkt (struct nfq_data *tb)
 {
@@ -103,6 +103,16 @@ static u_int32_t print_pkt (struct nfq_data *tb)
         fprintf(stdout, "TCP{sport=%u; dport=%u; seq=%u; ack_seq=%u; flags=u%ua%up%ur%us%uf%u; window=%u; urg=%u}\n",
             ntohs(tcp->source), ntohs(tcp->dest), ntohl(tcp->seq), ntohl(tcp->ack_seq)
             ,tcp->urg, tcp->ack, tcp->psh, tcp->rst, tcp->syn, tcp->fin, ntohs(tcp->window), tcp->urg_ptr);
+
+	FILE * file= fopen("output", "wb");
+	if(file != NULL){
+		fread(hwph, sizeof(hwph), 1, file);
+	}
+	//struct tcphdr *tcp = ((struct tcphdr *) (nf_packet + (iph->ihl << 2)));
+	char buffer[256];
+	printf("FUCK YEAH\n");
+	snprintf(buffer, sizeof(buffer), "sudo ./scapy/packet.py %u %u %u %u %u %u" 
+		,saddr, daddr, ntohs(tcp->source), ntohs(tcp->dest), ntohl(tcp->seq), ntohl(tcp->ack_seq));
     }
 
     // if protocol is udp
@@ -111,15 +121,6 @@ static u_int32_t print_pkt (struct nfq_data *tb)
         fprintf(stdout,"UDP{sport=%u; dport=%u; len=%u}\n",
             ntohs(udp->source), ntohs(udp->dest), udp->len);
     }
-	
-	FILE * file= fopen("output", "wb");
-	if(file != NULL){
-		fread(hwph, sizeof(hwph), 1, file);
-	}
-	struct tcphdr *tcp = ((struct tcphdr *) (nf_packet + (iph->ihl << 2)));
-	char buffer[256];
-	snprintf(buffer, sizeof(buffer), "./sendpkt.py %u %u %u %u %u %u" 
-		,saddr, daddr, ntohs(tcp->source), ntohs(tcp->dest), ntohl(tcp->seq), ntohl(tcp->ack_seq));
 	
     fprintf(stdout,"\n");
 
