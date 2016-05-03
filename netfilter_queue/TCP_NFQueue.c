@@ -1,11 +1,10 @@
-/*! netfilter_queue.c
- \code gcc -Wall -o nfqueue_recorder nfqueue_recorder.c -lnetfilter_queue -lnfnetlink
+/*! TCP_NFQueue.c
+
  */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-//#include <pcap.h>
 #include <time.h>
 #include <getopt.h>
 #include <linux/tcp.h>
@@ -18,7 +17,6 @@
 #include <libnetfilter_queue/libnetfilter_queue.h>
 
 #define BUFSIZE 2048
-//pcap_dumper_t *p_output;
 
 static u_int32_t print_pkt (struct nfq_data *tb)
 {
@@ -115,12 +113,12 @@ static u_int32_t print_pkt (struct nfq_data *tb)
 		,saddr, daddr, ntohs(tcp->source), ntohs(tcp->dest), ntohl(tcp->seq), ntohl(tcp->ack_seq));
     }
 
-    // if protocol is udp
+    /* if protocol is udp
     if(iph->protocol == 17){
         struct udphdr *udp = ((struct udphdr *) (nf_packet + (iph->ihl << 2)));
         fprintf(stdout,"UDP{sport=%u; dport=%u; len=%u}\n",
             ntohs(udp->source), ntohs(udp->dest), udp->len);
-    }
+    }*/
 	
     fprintf(stdout,"\n");
 
