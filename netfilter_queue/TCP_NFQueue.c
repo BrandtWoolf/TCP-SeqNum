@@ -37,6 +37,7 @@ static u_int32_t print_pkt (struct nfq_data *tb)
 	}
 
 	hwph = nfq_get_packet_hw(tb);
+	// printf("%d",hwph->hw_addr);
     if (hwph) {
         int i, hlen = ntohs(hwph->hw_addrlen);
 
