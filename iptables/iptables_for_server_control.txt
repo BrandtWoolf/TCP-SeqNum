@@ -1,0 +1,6 @@
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+-A OUTPUT -p tcp -m tcp --sport 80 -j NFQUEUE --queue-num 1
+COMMIT
